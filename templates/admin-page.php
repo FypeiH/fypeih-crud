@@ -60,13 +60,10 @@ $messages = [
 ================================================================ -->
 <aside class="gig-sidebar">
     <div class="gig-sidebar-logo">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <rect width="28" height="28" rx="6" fill="#c8f135"/>
-            <path d="M7 10h14M7 14h10M7 18h12" stroke="#0a0a0b" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+         <img src="<?php echo GIGANTIC_CRUD_URL; ?>assets/giganticLogo.png" alt="Gigantic Logo" width="28" height="28">
         <div class="gig-sidebar-logo-text">
             CRUD Manager
-            <span>Gigantic Digital</span>
+            <span>Gigantic Digital Growth</span>
         </div>
     </div>
 

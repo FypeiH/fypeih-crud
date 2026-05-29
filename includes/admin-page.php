@@ -27,7 +27,18 @@ function gig_crud_handle_actions() {
             gig_crud_save_meta_table( $key, $label, $schema );
             gig_crud_sync_real_table( $key, $schema );
         }
-        wp_safe_redirect( add_query_arg( [ 'page' => GIGANTIC_CRUD_SLUG, 'gig_tab' => 'tables', 'gig_msg' => 'table_saved' ], admin_url( 'admin.php' ) ) );
+
+        wp_safe_redirect(
+            add_query_arg(
+                [
+                    'page' => GIGANTIC_CRUD_SLUG,
+                    'gig_tab' => 'tables',
+                    'gig_msg' => 'table_saved'
+                ],
+                admin_url( 'admin.php' )
+            )
+        );
+
         exit;
     }
 
@@ -101,13 +112,13 @@ function gig_crud_handle_actions() {
     }
 }
 
+add_action( 'admin_init', 'gig_crud_handle_actions' );
+
 /* =====================================================================
    RENDER
 ===================================================================== */
 function gig_crud_render_admin_page() {
     if ( ! current_user_can( 'manage_options' ) ) return;
-
-    gig_crud_handle_actions();
 
     require GIGANTIC_CRUD_PATH . 'templates/admin-page.php';
 }

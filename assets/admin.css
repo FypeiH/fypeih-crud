@@ -11,16 +11,16 @@
     --gig-surface-2:   #18181c;
     --gig-border:      #252529;
     --gig-border-2:    #2e2e33;
-    --gig-accent:      #c8f135;     /* Gigantic lime-green */
-    --gig-accent-dim:  #9ab82a;
-    --gig-accent-glow: rgba(200,241,53,.15);
+    --gig-accent:      #FEF200;
+    --gig-accent-dim:  rgba(254,242,0,.1);
+    --gig-accent-glow: rgba(254,242,0,.2);
     --gig-red:         #ff4d4f;
     --gig-red-dim:     rgba(255,77,79,.12);
     --gig-blue:        #4f8cff;
     --gig-blue-dim:    rgba(79,140,255,.12);
-    --gig-text:        #e8e8ec;
-    --gig-text-2:      #9898a6;
-    --gig-text-3:      #5a5a68;
+    --gig-text:        #ffffff;
+    --gig-text-2:      #c8c8d1;
+    --gig-text-3:      #8c8c99;
     --gig-radius:      6px;
     --gig-radius-lg:   10px;
     --sidebar-w:       240px;
