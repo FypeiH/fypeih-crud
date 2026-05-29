@@ -30,7 +30,7 @@ function gig_crud_disable_wp_router() {
 
     wp_add_inline_script( 'jquery-core',
         '(function(){' .
-            // Intercept na capture phase — corre antes de qualquer listener do WP
+            // Intercepta na capture phase — corre antes de qualquer listener do WP
             'document.addEventListener("click", function(e){' .
                 'var a = e.target.closest("a[href]");' .
                 'if (!a) return;' .
