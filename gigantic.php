@@ -20,7 +20,7 @@ define( 'GIGANTIC_CRUD_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GIGANTIC_CRUD_URL', plugin_dir_url( __FILE__ ) );
 define( 'GIGANTIC_CRUD_SLUG', 'gigantic-crud-manager' );
 
-require_once GIGANTIC_CRUD_PATH . 'includes/database.php';
+require_once GIGANTIC_CRUD_PATH . 'includes/database/database.php';
 require_once GIGANTIC_CRUD_PATH . 'includes/admin/admin-menu.php';
 require_once GIGANTIC_CRUD_PATH . 'includes/admin/admin-page.php';
 
