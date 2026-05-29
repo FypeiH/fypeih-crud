@@ -3,7 +3,8 @@
    Inspired by gigantic.pt — dark, typographic, editorial
 ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
 
 :root {
     --gig-bg:          #0a0a0b;
@@ -25,7 +26,7 @@
     --gig-radius-lg:   10px;
     --sidebar-w:       240px;
     --topbar-h:        56px;
-    --font-head:       'Syne', sans-serif;
+    --font-head:       'Archivo Black', sans-serif;
     --font-body:       'DM Sans', sans-serif;
     --font-mono:       'DM Mono', monospace;
     --ease:            cubic-bezier(.4,0,.2,1);

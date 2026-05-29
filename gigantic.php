@@ -21,7 +21,7 @@ define( 'GIGANTIC_CRUD_URL', plugin_dir_url( __FILE__ ) );
 define( 'GIGANTIC_CRUD_SLUG', 'gigantic-crud-manager' );
 
 require_once GIGANTIC_CRUD_PATH . 'includes/database.php';
-require_once GIGANTIC_CRUD_PATH . 'includes/admin-menu.php';
-require_once GIGANTIC_CRUD_PATH . 'includes/admin-page.php';
+require_once GIGANTIC_CRUD_PATH . 'includes/admin/admin-menu.php';
+require_once GIGANTIC_CRUD_PATH . 'includes/admin/admin-page.php';
 
 register_activation_hook( __FILE__, 'gig_crud_create_table' );

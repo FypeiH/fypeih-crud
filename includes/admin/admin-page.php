@@ -8,8 +8,40 @@ function gig_crud_admin_assets( $hook ) {
     if ( false === strpos( $hook, GIGANTIC_CRUD_SLUG ) ) {
         return;
     }
-    wp_enqueue_style( 'gig-crud-admin', GIGANTIC_CRUD_URL . 'assets/admin.css', [], GIGANTIC_CRUD_VERSION );
+
+    wp_enqueue_style(
+        'gig-crud-admin',
+        GIGANTIC_CRUD_URL . 'assets/admin.css',
+        [],
+        GIGANTIC_CRUD_VERSION
+    );
+
+    wp_enqueue_script(
+        'gig-crud-admin',
+        GIGANTIC_CRUD_URL . 'assets/admin.js',
+        [],
+        GIGANTIC_CRUD_VERSION,
+        true
+    );
+
+    wp_localize_script(
+        'gig-crud-admin',
+        'GigCrudAdmin',
+        [
+            'tables' => array_map(
+                function ( $t ) {
+                    return [
+                        'key'    => $t->table_key,
+                        'label'  => $t->table_label,
+                        'schema' => json_decode( $t->schema_json, true ),
+                    ];
+                },
+                gig_crud_get_all_meta_tables()
+            ),
+        ]
+    );
 }
+
 add_action( 'admin_enqueue_scripts', 'gig_crud_admin_assets' );
 
 /* =====================================================================
