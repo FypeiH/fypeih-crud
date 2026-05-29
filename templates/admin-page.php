@@ -51,7 +51,7 @@ $messages = [
     'sql_run'       => [ 'success', 'Query executada com sucesso.' ],
 ];
 ?>
-<!– Gigantic CRUD Manager — redesign v2 –>
+
 <div class="wrap gig-crud-admin">
 <div class="gig-shell">
 
@@ -646,9 +646,15 @@ window.gigCloseModal = function() {
     document.getElementById('gig-table-modal').classList.remove('open');
 };
 
-document.getElementById('gig-table-modal').addEventListener('click', function(e){
-    if (e.target === this) gigCloseModal();
-});
+var modal = document.getElementById('gig-table-modal');
+
+if (modal) {
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            gigCloseModal();
+        }
+    });
+}
 
 /* ---------- Field builder ---------- */
 var typeOptions = ['VARCHAR','TEXT','LONGTEXT','INT','MEDIUMINT','BIGINT','TINYINT','DECIMAL','FLOAT','DATETIME','DATE','BOOLEAN'];
@@ -738,12 +744,17 @@ window.gigAddFieldRow = function(defaults) {
 };
 
 // Auto-slug table key from label
-document.getElementById('gig-table-label').addEventListener('input', function(){
-    var keyEl = document.getElementById('gig-table-key');
-    if (!keyEl.readOnly) {
-        keyEl.value = this.value.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
-    }
-});
+var tableLabel = document.getElementById('gig-table-label');
+
+if (tableLabel) {
+    tableLabel.addEventListener('input', function() {
+        var keyEl = document.getElementById('gig-table-key');
+
+        if (keyEl && !keyEl.readOnly) {
+            keyEl.value = this.value.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+        }
+    });
+}
 
 window.gigBuildSchema = function() {
     var rows   = document.querySelectorAll('#gig-field-builder .gig-field-row');
