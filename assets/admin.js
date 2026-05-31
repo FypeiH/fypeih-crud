@@ -99,7 +99,7 @@ if (modal) {
 }
 
 /* ---------- Field builder ---------- */
-var typeOptions = ['VARCHAR','TEXT','LONGTEXT','INT','MEDIUMINT','BIGINT','TINYINT','DECIMAL','FLOAT','DATETIME','DATE','BOOLEAN'];
+var typeOptions = ['VARCHAR','TEXT','LONGTEXT','INT','MEDIUMINT','BIGINT','TINYINT','DECIMAL','FLOAT','DATETIME','DATE','BOOLEAN','IMAGE'];
 
 window.gigAddFieldRow = function(defaults) {
     defaults = defaults || {};
@@ -224,3 +224,54 @@ window.gigBuildSchema = function() {
 bindCheckboxes();
 
 })();
+
+
+/* ================================================================
+   MEDIA UPLOADER — campos do tipo image
+================================================================ */
+function gigInitMediaFields() {
+    document.querySelectorAll('.gig-media-field').forEach(function(wrap) {
+        if (wrap.dataset.gigMediaInit) return; // já inicializado
+        wrap.dataset.gigMediaInit = '1';
+
+        var input   = wrap.querySelector('.gig-media-input');
+        var preview = wrap.querySelector('.gig-media-preview');
+        var btnOpen = wrap.querySelector('.gig-media-btn-open');
+        var btnClear= wrap.querySelector('.gig-media-btn-clear');
+
+        btnOpen.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            var frame = wp.media({
+                title:    'Selecionar Imagem',
+                button:   { text: 'Usar esta imagem' },
+                multiple: false,
+                library:  { type: 'image' },
+            });
+
+            frame.on('select', function() {
+                var attachment = frame.state().get('selection').first().toJSON();
+                input.value = attachment.id; // guarda o ID
+
+                // Preview
+                var url = attachment.sizes && attachment.sizes.thumbnail
+                    ? attachment.sizes.thumbnail.url
+                    : attachment.url;
+                preview.innerHTML = '<img src="' + url + '" style="max-width:80px;max-height:60px;border-radius:4px;object-fit:cover;">';
+                btnClear.style.display = 'inline-flex';
+            });
+
+            frame.open();
+        });
+
+        btnClear.addEventListener('click', function(e) {
+            e.preventDefault();
+            input.value = '';
+            preview.innerHTML = '';
+            btnClear.style.display = 'none';
+        });
+    });
+}
+
+// Corre no load inicial e sempre que a tab de records for renderizada
+document.addEventListener('DOMContentLoaded', gigInitMediaFields);

@@ -23,6 +23,7 @@ define( 'GIGANTIC_CRUD_SLUG', 'gigantic-crud-manager' );
 require_once GIGANTIC_CRUD_PATH . 'includes/database/database.php';
 require_once GIGANTIC_CRUD_PATH . 'includes/admin/admin-menu.php';
 require_once GIGANTIC_CRUD_PATH . 'includes/admin/admin-page.php';
+require_once GIGANTIC_CRUD_PATH . 'includes/admin/field-renderer.php';
 require_once GIGANTIC_CRUD_PATH . 'includes/elementor/elementor.php';
 
 register_activation_hook( __FILE__, 'gig_crud_create_table' );

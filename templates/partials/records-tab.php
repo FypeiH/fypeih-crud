@@ -28,10 +28,10 @@
                                 if ( !empty($f['auto_increment']) || $f['name'] === 'id' ) continue; ?>
                                 <div class="gig-field">
                                     <label class="gig-label"><?php echo esc_html($f['name']); ?><?php echo !empty($f['required']) ? ' *' : ''; ?></label>
-                                    <input type="text" name="rec[<?php echo esc_attr($f['name']); ?>]"
-                                        class="gig-input"
-                                        <?php echo !empty($f['required']) ? 'required' : ''; ?>
-                                        value="<?php $v = $edit_record->{$f['name']} ?? ''; echo esc_attr($v); ?>">
+                                    <?php
+                                        $v = $edit_record->{$f['name']} ?? '';
+                                        echo gig_crud_render_field_input( $f, 'rec[' . esc_attr($f['name']) . ']', $v );
+                                        ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -88,11 +88,7 @@
                                     <td><span class="gig-mono gig-muted" style="font-size:11px;">auto</span></td>
                                 <?php else : ?>
                                     <td>
-                                        <input type="text" name="rec[<?php echo esc_attr($f['name']); ?>]"
-                                               form="gig-add-record-form"
-                                               class="gig-input gig-input-sm"
-                                               placeholder="<?php echo esc_attr($f['name']); ?>"
-                                               <?php echo !empty($f['required']) ? 'required' : ''; ?>>
+                                        <?php echo gig_crud_render_field_input( $f, 'rec[' . esc_attr($f['name']) . ']', '', 'gig-add-record-form' ); ?>
                                     </td>
                                 <?php endif; endforeach; ?>
                                 <td>

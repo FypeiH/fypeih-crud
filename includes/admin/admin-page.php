@@ -16,10 +16,12 @@ function gig_crud_admin_assets( $hook ) {
         GIGANTIC_CRUD_VERSION
     );
 
+    wp_enqueue_media();
+
     wp_enqueue_script(
         'gig-crud-admin',
         GIGANTIC_CRUD_URL . 'assets/admin.js',
-        [],
+        [ 'jquery', 'media-upload' ],
         GIGANTIC_CRUD_VERSION,
         true
     );
