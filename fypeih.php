@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Fypeih CRUD Manager
+ * Plugin Name:       FypeiH CRUD Manager
  * Description:       Plugin interno para gerir tabelas e registos personalizados na base de dados.
  * Version:           0.2.0
  * Requires at least: 6.8
