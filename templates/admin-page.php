@@ -1,29 +1,29 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-require GIGANTIC_CRUD_PATH . 'templates/partials/setup.php';
+require FYPEIH_CRUD_PATH . 'templates/partials/setup.php';
 ?>
 
-<div class="wrap gig-crud-admin">
-    <div class="gig-shell">
+<div class="wrap fyp-crud-admin">
+    <div class="fyp-shell">
 
-        <?php require GIGANTIC_CRUD_PATH . 'templates/partials/sidebar.php'; ?>
+        <?php require FYPEIH_CRUD_PATH . 'templates/partials/sidebar.php'; ?>
 
-        <main class="gig-main">
+        <main class="fyp-main">
 
-            <?php require GIGANTIC_CRUD_PATH . 'templates/partials/topbar.php'; ?>
+            <?php require FYPEIH_CRUD_PATH . 'templates/partials/topbar.php'; ?>
 
-            <?php require GIGANTIC_CRUD_PATH . 'templates/partials/notices.php'; ?>
+            <?php require FYPEIH_CRUD_PATH . 'templates/partials/notices.php'; ?>
 
             <!-- Content -->
-            <div class="gig-content">
+            <div class="fyp-content">
                 <?php
-                    if ( $gig_tab === 'tables' ) {
-                        require GIGANTIC_CRUD_PATH . 'templates/partials/tables-tab.php';
-                    } elseif ( $gig_tab === 'records' ) {
-                        require GIGANTIC_CRUD_PATH . 'templates/partials/records-tab.php';
-                    } elseif ( $gig_tab === 'sql' ) {
-                        require GIGANTIC_CRUD_PATH . 'templates/partials/sql-tab.php';
+                    if ( $fyp_tab === 'tables' ) {
+                        require FYPEIH_CRUD_PATH . 'templates/partials/tables-tab.php';
+                    } elseif ( $fyp_tab === 'records' ) {
+                        require FYPEIH_CRUD_PATH . 'templates/partials/records-tab.php';
+                    } elseif ( $fyp_tab === 'sql' ) {
+                        require FYPEIH_CRUD_PATH . 'templates/partials/sql-tab.php';
                     }
                 ?>
             </div>
@@ -31,4 +31,4 @@ require GIGANTIC_CRUD_PATH . 'templates/partials/setup.php';
     </div>
 </div>
 
-<?php require GIGANTIC_CRUD_PATH . 'templates/partials/table-modal.php'; ?>
+<?php require FYPEIH_CRUD_PATH . 'templates/partials/table-modal.php'; ?>

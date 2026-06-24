@@ -1,7 +1,7 @@
-# Gigantic Plugin Template
+# Fypeih Plugin Template
 
 Template base para desenvolvimento de plugins WordPress internos da
-**Gigantic**.
+**Fypeih**.
 
 ------------------------------------------------------------------------
 
@@ -44,9 +44,9 @@ dependência de Gutenberg - com estrutura reutilizável e escalável
 
 | Tipo        | Prefixo             |
 | ----------- | ------------------- |
-| Funções PHP | `gig_`              |
-| Constantes  | `GIGANTIC_PLUGIN_*` |
-| CSS         | `gig-`              |
+| Funções PHP | `fyp_`              |
+| Constantes  | `FYPEIH_PLUGIN_*` |
+| CSS         | `fyp-`              |
 
 
 ------------------------------------------------------------------------
@@ -55,31 +55,31 @@ dependência de Gutenberg - com estrutura reutilizável e escalável
 
 ### PHP
 
-    gig_register_admin_menu()
-    gig_render_admin_page()
-    gig_admin_assets()
+    fyp_register_admin_menu()
+    fyp_render_admin_page()
+    fyp_admin_assets()
 
 ### Constantes
 
-    GIGANTIC_PLUGIN_VERSION
-    GIGANTIC_PLUGIN_PATH
-    GIGANTIC_PLUGIN_URL
-    GIGANTIC_PLUGIN_SLUG
+    FYPEIH_PLUGIN_VERSION
+    FYPEIH_PLUGIN_PATH
+    FYPEIH_PLUGIN_URL
+    FYPEIH_PLUGIN_SLUG
 
 ### CSS
 
-    .gig-admin
-    .gig-card
-    .gig-button
+    .fyp-admin
+    .fyp-card
+    .fyp-button
 
 ------------------------------------------------------------------------
 
 # ⚙️ Constantes base
 
-    define( 'GIGANTIC_PLUGIN_VERSION', '0.1.0' );
-    define( 'GIGANTIC_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-    define( 'GIGANTIC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-    define( 'GIGANTIC_PLUGIN_SLUG', 'gigantic-plugin-template' );
+    define( 'FYPEIH_PLUGIN_VERSION', '0.1.0' );
+    define( 'FYPEIH_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+    define( 'FYPEIH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+    define( 'FYPEIH_PLUGIN_SLUG', 'fypeih-plugin-template' );
 
 ------------------------------------------------------------------------
 
@@ -97,11 +97,11 @@ No `plugin.php`:
 -   Description
 -   Version
 -   Text Domain
--   GIGANTIC_PLUGIN_SLUG
+-   FYPEIH_PLUGIN_SLUG
 
 ## 3. (Opcional) Alterar prefixo
 
-Exemplo: - `gig_` → `seo_` - `gig-` → `seo-`
+Exemplo: - `fyp_` → `seo_` - `fyp-` → `seo-`
 
 ⚠️ Mantém consistência em todo o código
 
@@ -130,7 +130,7 @@ A página aparece em:
 
 # 🎯 Wrapper obrigatório
 
-    <div class="wrap gig-admin">
+    <div class="wrap fyp-admin">
 
 ------------------------------------------------------------------------
 
@@ -141,7 +141,7 @@ A página aparece em:
 -   Sempre scoped:
 
 ```
-.gig-admin { ... }
+.fyp-admin { ... }
 ```
 
 -   Nunca usar:
@@ -154,8 +154,8 @@ A página aparece em:
 -   Usar:
 
 ```
-.gig-card ✔️
-.gig-button ✔️
+.fyp-card ✔️
+.fyp-button ✔️
 ```
 
 ------------------------------------------------------------------------
@@ -164,7 +164,7 @@ A página aparece em:
 
 Carregados apenas na página do plugin:
 
-    if ( 'toplevel_page_' . GIGANTIC_PLUGIN_SLUG !== $hook ) {
+    if ( 'toplevel_page_' . FYPEIH_PLUGIN_SLUG !== $hook ) {
         return;
     }
 
@@ -212,4 +212,4 @@ Ao adicionar formulários:
 
 # 🏁
 
-Template interno da Gigantic.
+Template interno da Fypeih.

@@ -3,7 +3,7 @@
    SQL RUNNER
 ===================================================================== */
 
-function gig_crud_run_sql( $sql ) {
+function fyp_crud_run_sql( $sql ) {
     global $wpdb;
     $wpdb->show_errors();
     $sql_trim = trim( $sql );

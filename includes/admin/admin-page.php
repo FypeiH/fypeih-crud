@@ -4,30 +4,30 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-function gig_crud_admin_assets( $hook ) {
-    if ( false === strpos( $hook, GIGANTIC_CRUD_SLUG ) ) {
+function fyp_crud_admin_assets( $hook ) {
+    if ( false === strpos( $hook, FYPEIH_CRUD_SLUG ) ) {
         return;
     }
 
     wp_enqueue_style(
-        'gig-crud-admin',
-        GIGANTIC_CRUD_URL . 'assets/admin.css',
+        'fyp-crud-admin',
+        FYPEIH_CRUD_URL . 'assets/admin.css',
         [],
-        GIGANTIC_CRUD_VERSION
+        FYPEIH_CRUD_VERSION
     );
 
     wp_enqueue_media();
 
     wp_enqueue_script(
-        'gig-crud-admin',
-        GIGANTIC_CRUD_URL . 'assets/admin.js',
+        'fyp-crud-admin',
+        FYPEIH_CRUD_URL . 'assets/admin.js',
         [ 'jquery', 'media-upload' ],
-        GIGANTIC_CRUD_VERSION,
+        FYPEIH_CRUD_VERSION,
         true
     );
 
     wp_localize_script(
-        'gig-crud-admin',
+        'fyp-crud-admin',
         'GigCrudAdmin',
         [
             'tables' => array_map(
@@ -38,36 +38,36 @@ function gig_crud_admin_assets( $hook ) {
                         'schema' => json_decode( $t->schema_json, true ),
                     ];
                 },
-                gig_crud_get_all_meta_tables()
+                fyp_crud_get_all_meta_tables()
             ),
         ]
     );
 }
 
-add_action( 'admin_enqueue_scripts', 'gig_crud_admin_assets' );
+add_action( 'admin_enqueue_scripts', 'fyp_crud_admin_assets' );
 
 /* =====================================================================
    ACTION DISPATCHER
 ===================================================================== */
-function gig_crud_handle_actions() {
+function fyp_crud_handle_actions() {
     /* ---- CREATE / EDIT TABLE ---- */
-    if ( isset( $_POST['gig_action'] ) && $_POST['gig_action'] === 'save_table' ) {
-        check_admin_referer( 'gig_crud_save_table' );
+    if ( isset( $_POST['fyp_action'] ) && $_POST['fyp_action'] === 'save_table' ) {
+        check_admin_referer( 'fyp_crud_save_table' );
         $key   = sanitize_key( $_POST['table_key'] ?? '' );
         $label = sanitize_text_field( $_POST['table_label'] ?? '' );
         $schema= wp_unslash( $_POST['schema_json'] ?? '[]' );
 
         if ( $key && $label ) {
-            gig_crud_save_meta_table( $key, $label, $schema );
-            gig_crud_sync_real_table( $key, $schema );
+            fyp_crud_save_meta_table( $key, $label, $schema );
+            fyp_crud_sync_real_table( $key, $schema );
         }
 
         wp_safe_redirect(
             add_query_arg(
                 [
-                    'page' => GIGANTIC_CRUD_SLUG,
-                    'gig_tab' => 'tables',
-                    'gig_msg' => 'table_saved'
+                    'page' => FYPEIH_CRUD_SLUG,
+                    'fyp_tab' => 'tables',
+                    'fyp_msg' => 'table_saved'
                 ],
                 admin_url( 'admin.php' )
             )
@@ -77,16 +77,16 @@ function gig_crud_handle_actions() {
     }
 
     /* ---- DELETE TABLE ---- */
-    if ( isset( $_GET['gig_delete_table'] ) ) {
-        check_admin_referer( 'gig_crud_delete_table' );
-        gig_crud_delete_meta_table( sanitize_key( $_GET['gig_delete_table'] ) );
+    if ( isset( $_GET['fyp_delete_table'] ) ) {
+        check_admin_referer( 'fyp_crud_delete_table' );
+        fyp_crud_delete_meta_table( sanitize_key( $_GET['fyp_delete_table'] ) );
 
         wp_safe_redirect(
             add_query_arg(
                 [
-                    'page' => GIGANTIC_CRUD_SLUG,
-                    'gig_tab' => 'tables',
-                    'gig_msg' => 'table_deleted'
+                    'page' => FYPEIH_CRUD_SLUG,
+                    'fyp_tab' => 'tables',
+                    'fyp_msg' => 'table_deleted'
                 ],
                 admin_url( 'admin.php' )
             )
@@ -96,18 +96,18 @@ function gig_crud_handle_actions() {
     }
 
     /* ---- BULK DELETE TABLES ---- */
-    if ( isset( $_POST['gig_action'] ) && $_POST['gig_action'] === 'bulk_delete_tables' ) {
-        check_admin_referer( 'gig_crud_bulk_tables' );
+    if ( isset( $_POST['fyp_action'] ) && $_POST['fyp_action'] === 'bulk_delete_tables' ) {
+        check_admin_referer( 'fyp_crud_bulk_tables' );
         foreach ( (array) ( $_POST['table_keys'] ?? [] ) as $k ) {
-            gig_crud_delete_meta_table( sanitize_key( $k ) );
+            fyp_crud_delete_meta_table( sanitize_key( $k ) );
         }
 
         wp_safe_redirect(
             add_query_arg(
                 [
-                    'page' => GIGANTIC_CRUD_SLUG,
-                    'gig_tab' => 'tables',
-                    'gig_msg' => 'bulk_deleted'
+                    'page' => FYPEIH_CRUD_SLUG,
+                    'fyp_tab' => 'tables',
+                    'fyp_msg' => 'bulk_deleted'
                 ],
                 admin_url( 'admin.php' )
             )
@@ -117,19 +117,19 @@ function gig_crud_handle_actions() {
     }
 
     /* ---- INSERT RECORD ---- */
-    if ( isset( $_POST['gig_action'] ) && $_POST['gig_action'] === 'insert_record' ) {
-        check_admin_referer( 'gig_crud_save_record' );
+    if ( isset( $_POST['fyp_action'] ) && $_POST['fyp_action'] === 'insert_record' ) {
+        check_admin_referer( 'fyp_crud_save_record' );
         $tk   = sanitize_key( $_POST['table_key'] ?? '' );
         $data = array_map( 'sanitize_text_field', (array)( $_POST['rec'] ?? [] ) );
-        if ( $tk ) gig_crud_insert_record( $tk, $data );
+        if ( $tk ) fyp_crud_insert_record( $tk, $data );
 
         wp_safe_redirect(
             add_query_arg(
                 [
-                    'page' => GIGANTIC_CRUD_SLUG,
-                    'gig_tab' => 'records',
-                    'gig_table' => $tk,
-                    'gig_msg' => 'record_saved'
+                    'page' => FYPEIH_CRUD_SLUG,
+                    'fyp_tab' => 'records',
+                    'fyp_table' => $tk,
+                    'fyp_msg' => 'record_saved'
                 ],
                 admin_url( 'admin.php' )
             )
@@ -139,20 +139,20 @@ function gig_crud_handle_actions() {
     }
 
     /* ---- UPDATE RECORD ---- */
-    if ( isset( $_POST['gig_action'] ) && $_POST['gig_action'] === 'update_record' ) {
-        check_admin_referer( 'gig_crud_save_record' );
+    if ( isset( $_POST['fyp_action'] ) && $_POST['fyp_action'] === 'update_record' ) {
+        check_admin_referer( 'fyp_crud_save_record' );
         $tk  = sanitize_key( $_POST['table_key'] ?? '' );
         $id  = absint( $_POST['rec_id'] ?? 0 );
         $data= array_map( 'sanitize_text_field', (array)( $_POST['rec'] ?? [] ) );
-        if ( $tk && $id ) gig_crud_update_record( $tk, $id, $data );
+        if ( $tk && $id ) fyp_crud_update_record( $tk, $id, $data );
 
         wp_safe_redirect(
             add_query_arg(
                 [
-                    'page' => GIGANTIC_CRUD_SLUG,
-                    'gig_tab' => 'records',
-                    'gig_table' => $tk,
-                    'gig_msg' => 'record_updated'
+                    'page' => FYPEIH_CRUD_SLUG,
+                    'fyp_tab' => 'records',
+                    'fyp_table' => $tk,
+                    'fyp_msg' => 'record_updated'
                 ],
                 admin_url( 'admin.php' )
             )
@@ -162,18 +162,18 @@ function gig_crud_handle_actions() {
     }
 
     /* ---- DELETE RECORD ---- */
-    if ( isset( $_GET['gig_delete_record'] ) ) {
-        check_admin_referer( 'gig_crud_delete_record' );
-        $tk = sanitize_key( $_GET['gig_table'] ?? '' );
-        gig_crud_delete_record( $tk, absint( $_GET['gig_delete_record'] ) );
+    if ( isset( $_GET['fyp_delete_record'] ) ) {
+        check_admin_referer( 'fyp_crud_delete_record' );
+        $tk = sanitize_key( $_GET['fyp_table'] ?? '' );
+        fyp_crud_delete_record( $tk, absint( $_GET['fyp_delete_record'] ) );
 
         wp_safe_redirect(
             add_query_arg(
                 [
-                    'page' => GIGANTIC_CRUD_SLUG,
-                    'gig_tab' => 'records',
-                    'gig_table' => $tk,
-                    'gig_msg' => 'record_deleted'
+                    'page' => FYPEIH_CRUD_SLUG,
+                    'fyp_tab' => 'records',
+                    'fyp_table' => $tk,
+                    'fyp_msg' => 'record_deleted'
                 ],
                 admin_url( 'admin.php' )
             )
@@ -183,19 +183,19 @@ function gig_crud_handle_actions() {
     }
 
     /* ---- BULK DELETE RECORDS ---- */
-    if ( isset( $_POST['gig_action'] ) && $_POST['gig_action'] === 'bulk_delete_records' ) {
-        check_admin_referer( 'gig_crud_bulk_records' );
+    if ( isset( $_POST['fyp_action'] ) && $_POST['fyp_action'] === 'bulk_delete_records' ) {
+        check_admin_referer( 'fyp_crud_bulk_records' );
         $tk  = sanitize_key( $_POST['table_key'] ?? '' );
         $ids = array_map( 'absint', (array)( $_POST['rec_ids'] ?? [] ) );
-        if ( $tk && ! empty( $ids ) ) gig_crud_delete_records_bulk( $tk, $ids );
+        if ( $tk && ! empty( $ids ) ) fyp_crud_delete_records_bulk( $tk, $ids );
 
         wp_safe_redirect(
             add_query_arg(
                 [
-                    'page' => GIGANTIC_CRUD_SLUG,
-                    'gig_tab' => 'records',
-                    'gig_table' => $tk,
-                    'gig_msg' => 'bulk_deleted'
+                    'page' => FYPEIH_CRUD_SLUG,
+                    'fyp_tab' => 'records',
+                    'fyp_table' => $tk,
+                    'fyp_msg' => 'bulk_deleted'
                 ],
                 admin_url( 'admin.php' )
             )
@@ -205,19 +205,19 @@ function gig_crud_handle_actions() {
     }
 
     /* ---- RUN SQL ---- */
-    if ( isset( $_POST['gig_action'] ) && $_POST['gig_action'] === 'run_sql' ) {
-        check_admin_referer( 'gig_crud_run_sql' );
+    if ( isset( $_POST['fyp_action'] ) && $_POST['fyp_action'] === 'run_sql' ) {
+        check_admin_referer( 'fyp_crud_run_sql' );
         $sql = wp_unslash( $_POST['sql_query'] ?? '' );
         // stored in transient so template can read it
-        set_transient( 'gig_crud_sql_result_' . get_current_user_id(), gig_crud_run_sql( $sql ), 30 );
-        set_transient( 'gig_crud_sql_last_'   . get_current_user_id(), $sql, 30 );
+        set_transient( 'fyp_crud_sql_result_' . get_current_user_id(), fyp_crud_run_sql( $sql ), 30 );
+        set_transient( 'fyp_crud_sql_last_'   . get_current_user_id(), $sql, 30 );
 
         wp_safe_redirect(
             add_query_arg(
                 [
-                    'page' => GIGANTIC_CRUD_SLUG,
-                    'gig_tab' => 'sql',
-                    'gig_msg' => 'sql_run'
+                    'page' => FYPEIH_CRUD_SLUG,
+                    'fyp_tab' => 'sql',
+                    'fyp_msg' => 'sql_run'
                 ],
                 admin_url( 'admin.php' )
             )
@@ -227,13 +227,13 @@ function gig_crud_handle_actions() {
     }
 }
 
-add_action( 'admin_init', 'gig_crud_handle_actions' );
+add_action( 'admin_init', 'fyp_crud_handle_actions' );
 
 /* =====================================================================
    RENDER
 ===================================================================== */
-function gig_crud_render_admin_page() {
+function fyp_crud_render_admin_page() {
     if ( ! current_user_can( 'manage_options' ) ) return;
 
-    require GIGANTIC_CRUD_PATH . 'templates/admin-page.php';
+    require FYPEIH_CRUD_PATH . 'templates/admin-page.php';
 }

@@ -2,10 +2,10 @@
 
 /* ---------- Checkbox bulk selection ---------- */
 function bindCheckboxes() {
-    document.querySelectorAll('.gig-checkbox-all').forEach(function(master) {
+    document.querySelectorAll('.fyp-checkbox-all').forEach(function(master) {
         var scope = master.dataset.scope;
         master.addEventListener('change', function() {
-            var all = document.querySelectorAll('.gig-row-check[data-scope="'+scope+'"]');
+            var all = document.querySelectorAll('.fyp-row-check[data-scope="'+scope+'"]');
             all.forEach(function(cb) {
                 cb.checked = master.checked;
                 syncCheckStyle(cb);
@@ -16,7 +16,7 @@ function bindCheckboxes() {
         syncMasterStyle(master);
     });
 
-    document.querySelectorAll('.gig-row-check').forEach(function(cb) {
+    document.querySelectorAll('.fyp-row-check').forEach(function(cb) {
         cb.addEventListener('change', function() {
             syncCheckStyle(cb);
             var scope = cb.dataset.scope;
@@ -27,73 +27,73 @@ function bindCheckboxes() {
 
 function syncCheckStyle(cb) {
     if ( cb.checked ) {
-        cb.style.background = 'var(--gig-accent)';
-        cb.style.borderColor = 'var(--gig-accent)';
+        cb.style.background = 'var(--fyp-accent)';
+        cb.style.borderColor = 'var(--fyp-accent)';
     } else {
-        cb.style.background = 'var(--gig-bg)';
-        cb.style.borderColor = 'var(--gig-border-2)';
+        cb.style.background = 'var(--fyp-bg)';
+        cb.style.borderColor = 'var(--fyp-border-2)';
     }
 }
 
 function syncMasterStyle(master) {
     var scope = master.dataset.scope;
-    var total   = document.querySelectorAll('.gig-row-check[data-scope="'+scope+'"]').length;
-    var checked = document.querySelectorAll('.gig-row-check[data-scope="'+scope+'"]:checked').length;
+    var total   = document.querySelectorAll('.fyp-row-check[data-scope="'+scope+'"]').length;
+    var checked = document.querySelectorAll('.fyp-row-check[data-scope="'+scope+'"]:checked').length;
     master.indeterminate = checked > 0 && checked < total;
     master.checked       = total > 0 && checked === total;
     syncCheckStyle(master);
 }
 
 function updateBulkBar(scope) {
-    var count  = document.querySelectorAll('.gig-row-check[data-scope="'+scope+'"]:checked').length;
-    var barId  = scope === 'tables' ? 'gig-tables-bulk-bar' : 'gig-records-bulk-bar';
-    var cntId  = scope === 'tables' ? 'gig-tables-bulk-count' : 'gig-records-bulk-count';
+    var count  = document.querySelectorAll('.fyp-row-check[data-scope="'+scope+'"]:checked').length;
+    var barId  = scope === 'tables' ? 'fyp-tables-bulk-bar' : 'fyp-records-bulk-bar';
+    var cntId  = scope === 'tables' ? 'fyp-tables-bulk-count' : 'fyp-records-bulk-count';
     var bar    = document.getElementById(barId);
     var cntEl  = document.getElementById(cntId);
     if (!bar) return;
     bar.classList.toggle('visible', count > 0);
     if (cntEl) cntEl.textContent = count + (scope==='tables' ? ' tabela(s) selecionadas' : ' registo(s) selecionados');
-    var master = document.querySelector('.gig-checkbox-all[data-scope="'+scope+'"]');
+    var master = document.querySelector('.fyp-checkbox-all[data-scope="'+scope+'"]');
     if (master) syncMasterStyle(master);
 }
 
 /* ---------- Modal ---------- */
-window.gigOpenCreateTable = function() {
-    document.getElementById('gig-modal-title').textContent = 'Nova Tabela';
-    document.getElementById('gig-table-label').value = '';
-    document.getElementById('gig-table-key').value  = '';
-    document.getElementById('gig-table-key').readOnly = false;
-    document.getElementById('gig-field-builder').innerHTML = '';
-    gigAddFieldRow({ name:'id', type:'MEDIUMINT', size:'9', required:true, auto_increment:true, primary_key:true });
-    gigAddFieldRow();
-    document.getElementById('gig-table-modal').classList.add('open');
+window.fypOpenCreateTable = function() {
+    document.getElementById('fyp-modal-title').textContent = 'Nova Tabela';
+    document.getElementById('fyp-table-label').value = '';
+    document.getElementById('fyp-table-key').value  = '';
+    document.getElementById('fyp-table-key').readOnly = false;
+    document.getElementById('fyp-field-builder').innerHTML = '';
+    fypAddFieldRow({ name:'id', type:'MEDIUMINT', size:'9', required:true, auto_increment:true, primary_key:true });
+    fypAddFieldRow();
+    document.getElementById('fyp-table-modal').classList.add('open');
 };
 
-window.gigOpenEditTable = function(key) {
+window.fypOpenEditTable = function(key) {
     // Fetch table data via meta tables PHP array
     var tables = window.GigCrudAdmin?.tables || [];
     var found  = tables.find(function(t){ return t.key === key; });
     if (!found) return;
 
-    document.getElementById('gig-modal-title').textContent = 'Editar Tabela: ' + found.label;
-    document.getElementById('gig-table-label').value = found.label;
-    document.getElementById('gig-table-key').value   = found.key;
-    document.getElementById('gig-table-key').readOnly = true;
-    document.getElementById('gig-field-builder').innerHTML = '';
-    (found.schema || []).forEach(function(f){ gigAddFieldRow(f); });
-    document.getElementById('gig-table-modal').classList.add('open');
+    document.getElementById('fyp-modal-title').textContent = 'Editar Tabela: ' + found.label;
+    document.getElementById('fyp-table-label').value = found.label;
+    document.getElementById('fyp-table-key').value   = found.key;
+    document.getElementById('fyp-table-key').readOnly = true;
+    document.getElementById('fyp-field-builder').innerHTML = '';
+    (found.schema || []).forEach(function(f){ fypAddFieldRow(f); });
+    document.getElementById('fyp-table-modal').classList.add('open');
 };
 
-window.gigCloseModal = function() {
-    document.getElementById('gig-table-modal').classList.remove('open');
+window.fypCloseModal = function() {
+    document.getElementById('fyp-table-modal').classList.remove('open');
 };
 
-var modal = document.getElementById('gig-table-modal');
+var modal = document.getElementById('fyp-table-modal');
 
 if (modal) {
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
-            gigCloseModal();
+            fypCloseModal();
         }
     });
 }
@@ -101,11 +101,11 @@ if (modal) {
 /* ---------- Field builder ---------- */
 var typeOptions = ['VARCHAR','TEXT','LONGTEXT','INT','MEDIUMINT','BIGINT','TINYINT','DECIMAL','FLOAT','DATETIME','DATE','BOOLEAN','IMAGE'];
 
-window.gigAddFieldRow = function(defaults) {
+window.fypAddFieldRow = function(defaults) {
     defaults = defaults || {};
-    var d = document.getElementById('gig-field-builder');
+    var d = document.getElementById('fyp-field-builder');
     var row = document.createElement('div');
-    row.className = 'gig-field-row';
+    row.className = 'fyp-field-row';
 
     function mk(tag, attrs, text) {
         var el = document.createElement(tag);
@@ -115,13 +115,13 @@ window.gigAddFieldRow = function(defaults) {
     }
 
     // Name
-    var nameIn = mk('input', {type:'text', class:'gig-input gig-input-sm', placeholder:'campo_nome'});
+    var nameIn = mk('input', {type:'text', class:'fyp-input fyp-input-sm', placeholder:'campo_nome'});
     if (defaults.name) nameIn.value = defaults.name;
     if (defaults.auto_increment) nameIn.readOnly = true;
     row.appendChild(nameIn);
 
     // Type
-    var typeS = mk('select', {class:'gig-input gig-input-sm'});
+    var typeS = mk('select', {class:'fyp-input fyp-input-sm'});
     typeOptions.forEach(function(t){
         var o = mk('option', {value:t}, t);
         if (defaults.type && defaults.type.toUpperCase() === t) o.selected = true;
@@ -131,7 +131,7 @@ window.gigAddFieldRow = function(defaults) {
     row.appendChild(typeS);
 
     // Size
-    var sizeIn = mk('input', {type:'number', class:'gig-input gig-input-sm', placeholder:'–', min:'0', max:'65535'});
+    var sizeIn = mk('input', {type:'number', class:'fyp-input fyp-input-sm', placeholder:'–', min:'0', max:'65535'});
     if (defaults.size) sizeIn.value = defaults.size;
     row.appendChild(sizeIn);
 
@@ -139,12 +139,12 @@ window.gigAddFieldRow = function(defaults) {
     function mkCb(checked, locked) {
         var wrap = document.createElement('div');
         wrap.style.cssText = 'display:flex;justify-content:center;align-items:center;';
-        var cb = mk('input', {type:'checkbox', class:'gig-checkbox-field', style:'appearance:none;width:14px;height:14px;border:1px solid var(--gig-border-2);border-radius:3px;background:var(--gig-bg);cursor:pointer;'});
-        if (checked) { cb.checked = true; cb.style.background='var(--gig-accent)'; cb.style.borderColor='var(--gig-accent)'; }
+        var cb = mk('input', {type:'checkbox', class:'fyp-checkbox-field', style:'appearance:none;width:14px;height:14px;border:1px solid var(--fyp-border-2);border-radius:3px;background:var(--fyp-bg);cursor:pointer;'});
+        if (checked) { cb.checked = true; cb.style.background='var(--fyp-accent)'; cb.style.borderColor='var(--fyp-accent)'; }
         if (locked) cb.disabled = true;
         cb.addEventListener('change', function(){
-            cb.style.background   = cb.checked ? 'var(--gig-accent)' : 'var(--gig-bg)';
-            cb.style.borderColor  = cb.checked ? 'var(--gig-accent)' : 'var(--gig-border-2)';
+            cb.style.background   = cb.checked ? 'var(--fyp-accent)' : 'var(--fyp-bg)';
+            cb.style.borderColor  = cb.checked ? 'var(--fyp-accent)' : 'var(--fyp-border-2)';
         });
         wrap.appendChild(cb);
         return { wrap, cb };
@@ -165,7 +165,7 @@ window.gigAddFieldRow = function(defaults) {
     // Delete button
     var del = document.createElement('button');
     del.type = 'button';
-    del.className = 'gig-btn gig-btn-danger gig-btn-icon';
+    del.className = 'fyp-btn fyp-btn-danger fyp-btn-icon';
     del.style.padding = '5px 7px';
     del.innerHTML = '<svg width="11" height="11" fill="none" viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
     if (defaults.auto_increment) del.disabled = true;
@@ -186,11 +186,11 @@ window.gigAddFieldRow = function(defaults) {
 };
 
 // Auto-slug table key from label
-var tableLabel = document.getElementById('gig-table-label');
+var tableLabel = document.getElementById('fyp-table-label');
 
 if (tableLabel) {
     tableLabel.addEventListener('input', function() {
-        var keyEl = document.getElementById('gig-table-key');
+        var keyEl = document.getElementById('fyp-table-key');
 
         if (keyEl && !keyEl.readOnly) {
             keyEl.value = this.value.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
@@ -198,8 +198,8 @@ if (tableLabel) {
     });
 }
 
-window.gigBuildSchema = function() {
-    var rows   = document.querySelectorAll('#gig-field-builder .gig-field-row');
+window.fypBuildSchema = function() {
+    var rows   = document.querySelectorAll('#fyp-field-builder .fyp-field-row');
     var schema = [];
     rows.forEach(function(row){
         if (!row._nameIn) return;
@@ -216,7 +216,7 @@ window.gigBuildSchema = function() {
             nullable:      row._nullable.checked,
         });
     });
-    document.getElementById('gig-schema-json').value = JSON.stringify(schema);
+    document.getElementById('fyp-schema-json').value = JSON.stringify(schema);
     return true;
 };
 
@@ -229,15 +229,15 @@ bindCheckboxes();
 /* ================================================================
    MEDIA UPLOADER — campos do tipo image
 ================================================================ */
-function gigInitMediaFields() {
-    document.querySelectorAll('.gig-media-field').forEach(function(wrap) {
-        if (wrap.dataset.gigMediaInit) return; // já inicializado
-        wrap.dataset.gigMediaInit = '1';
+function fypInitMediaFields() {
+    document.querySelectorAll('.fyp-media-field').forEach(function(wrap) {
+        if (wrap.dataset.fypMediaInit) return; // já inicializado
+        wrap.dataset.fypMediaInit = '1';
 
-        var input   = wrap.querySelector('.gig-media-input');
-        var preview = wrap.querySelector('.gig-media-preview');
-        var btnOpen = wrap.querySelector('.gig-media-btn-open');
-        var btnClear= wrap.querySelector('.gig-media-btn-clear');
+        var input   = wrap.querySelector('.fyp-media-input');
+        var preview = wrap.querySelector('.fyp-media-preview');
+        var btnOpen = wrap.querySelector('.fyp-media-btn-open');
+        var btnClear= wrap.querySelector('.fyp-media-btn-clear');
 
         btnOpen.addEventListener('click', function(e) {
             e.preventDefault();
@@ -274,4 +274,4 @@ function gigInitMediaFields() {
 }
 
 // Corre no load inicial e sempre que a tab de records for renderizada
-document.addEventListener('DOMContentLoaded', gigInitMediaFields);
+document.addEventListener('DOMContentLoaded', fypInitMediaFields);

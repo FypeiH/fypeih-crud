@@ -4,14 +4,14 @@
    METADATA TABLE — stores user-created table definitions
 ===================================================================== */
 
-function gig_crud_meta_table() {
+function fyp_crud_meta_table() {
     global $wpdb;
-    return $wpdb->prefix . 'gig_crud_meta';
+    return $wpdb->prefix . 'fyp_crud_meta';
 }
 
-function gig_crud_create_meta_table() {
+function fyp_crud_create_meta_table() {
     global $wpdb;
-    $t  = gig_crud_meta_table();
+    $t  = fyp_crud_meta_table();
     $ch = $wpdb->get_charset_collate();
     $sql = "CREATE TABLE IF NOT EXISTS $t (
         id         mediumint(9)  NOT NULL AUTO_INCREMENT,
@@ -25,21 +25,21 @@ function gig_crud_create_meta_table() {
     dbDelta( $sql );
 }
 
-function gig_crud_get_all_meta_tables() {
+function fyp_crud_get_all_meta_tables() {
     global $wpdb;
-    return $wpdb->get_results( 'SELECT * FROM ' . gig_crud_meta_table() . ' ORDER BY created_at ASC' );
+    return $wpdb->get_results( 'SELECT * FROM ' . fyp_crud_meta_table() . ' ORDER BY created_at ASC' );
 }
 
-function gig_crud_get_meta_table( $table_key ) {
+function fyp_crud_get_meta_table( $table_key ) {
     global $wpdb;
-    $t = gig_crud_meta_table();
+    $t = fyp_crud_meta_table();
     return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $t WHERE table_key = %s", $table_key ) );
 }
 
-function gig_crud_save_meta_table( $table_key, $table_label, $schema_json ) {
+function fyp_crud_save_meta_table( $table_key, $table_label, $schema_json ) {
     global $wpdb;
-    $t = gig_crud_meta_table();
-    $existing = gig_crud_get_meta_table( $table_key );
+    $t = fyp_crud_meta_table();
+    $existing = fyp_crud_get_meta_table( $table_key );
     if ( $existing ) {
         return $wpdb->update( $t,
             [ 'table_label' => $table_label, 'schema_json' => $schema_json ],
@@ -53,13 +53,13 @@ function gig_crud_save_meta_table( $table_key, $table_label, $schema_json ) {
     );
 }
 
-function gig_crud_delete_meta_table( $table_key ) {
+function fyp_crud_delete_meta_table( $table_key ) {
     global $wpdb;
-    $meta = gig_crud_get_meta_table( $table_key );
+    $meta = fyp_crud_get_meta_table( $table_key );
     if ( ! $meta ) return false;
     $real = $wpdb->prefix . sanitize_key( $table_key );
     $wpdb->query( "DROP TABLE IF EXISTS `$real`" );
-    return $wpdb->delete( gig_crud_meta_table(), [ 'table_key' => $table_key ], [ '%s' ] );
+    return $wpdb->delete( fyp_crud_meta_table(), [ 'table_key' => $table_key ], [ '%s' ] );
 }
 
 ?>

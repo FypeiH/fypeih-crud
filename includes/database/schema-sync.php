@@ -1,6 +1,6 @@
 <?php
 /* Build and (re)create the real MySQL table from schema JSON */
-function gig_crud_sync_real_table( $table_key, $schema_json ) {
+function fyp_crud_sync_real_table( $table_key, $schema_json ) {
     global $wpdb;
     $fields = json_decode( $schema_json, true );
     if ( ! is_array( $fields ) || empty( $fields ) ) return false;

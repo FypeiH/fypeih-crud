@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Gigantic_CRUD_URL_Tag extends \Elementor\Core\DynamicTags\Tag {
+class Fypeih_CRUD_URL_Tag extends \Elementor\Core\DynamicTags\Tag {
 
-    public function get_name()  { return 'gig-crud-url'; }
-    public function get_title() { return 'Gigantic CRUD URL'; }
-    public function get_group() { return 'gigantic-crud'; }
+    public function get_name()  { return 'fyp-crud-url'; }
+    public function get_title() { return 'Fypeih CRUD URL'; }
+    public function get_group() { return 'fypeih-crud'; }
 
     public function get_categories() {
         return [ \Elementor\Modules\DynamicTags\Module::URL_CATEGORY ];
@@ -16,7 +16,7 @@ class Gigantic_CRUD_URL_Tag extends \Elementor\Core\DynamicTags\Tag {
 
     private function get_tables_options(): array {
         $options = [ '' => '— Seleciona tabela —' ];
-        foreach ( gig_crud_get_all_meta_tables() as $t ) {
+        foreach ( fyp_crud_get_all_meta_tables() as $t ) {
             $options[ $t->table_key ] = $t->table_label;
         }
         return $options;
@@ -25,7 +25,7 @@ class Gigantic_CRUD_URL_Tag extends \Elementor\Core\DynamicTags\Tag {
     private function get_fields_options( string $table_key ): array {
         $options = [ '' => '— Seleciona campo —' ];
         if ( ! $table_key ) return $options;
-        $meta = gig_crud_get_meta_table( $table_key );
+        $meta = fyp_crud_get_meta_table( $table_key );
         if ( ! $meta ) return $options;
         $schema = json_decode( $meta->schema_json, true );
         if ( ! is_array( $schema ) ) return $options;
@@ -66,7 +66,7 @@ class Gigantic_CRUD_URL_Tag extends \Elementor\Core\DynamicTags\Tag {
 
         if ( ! $table_key || ! $record_id || ! $field ) return;
 
-        $record = gig_crud_get_record( $table_key, $record_id );
+        $record = fyp_crud_get_record( $table_key, $record_id );
         if ( $record && isset( $record->{ $field } ) ) {
             echo esc_url( $record->{ $field } );
         }
